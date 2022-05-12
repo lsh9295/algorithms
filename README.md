@@ -1,2 +1,2 @@
 # Algorithms
-알고리즘 문제 정리
+java, kotlin 알고리즘 문제 정리
