@@ -4,31 +4,29 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st1 = new StringTokenizer(br.readLine());
+        StringTokenizer st2 = new StringTokenizer(br.readLine());
+        HashMap<Integer, Integer> map = new HashMap<>();
 
-        String wordA = br.readLine();
-        String wordB = br.readLine();
+        int N = Integer.parseInt(st1.nextToken());
+        int K = Integer.parseInt(st1.nextToken());
+        int[] arr = new int[N];
 
-        HashMap<Character, Integer> mapA = new HashMap<>();
-        HashMap<Character, Integer> mapB = new HashMap<>();
+        for (int i = 0; i < N; i++)
+            arr[i] = Integer.parseInt(st2.nextToken());
 
-        for (char x : wordA.toCharArray()) {
-            mapA.put(x, mapA.getOrDefault(x, 0) + 1);
+        for (int i = 0; i < K - 1; i++) {
+            map.put(arr[i], map.getOrDefault(arr[i], 0) + 1);
         }
 
-        for (char x : wordB.toCharArray()) {
-            mapB.put(x, mapB.getOrDefault(x, 0) + 1);
-        }
-
-        if (mapA.size() != mapB.size()) { // 단어의 개수가 아예 다르면 예외처리
-            System.out.println("NO");
-        } else {
-            for (Map.Entry<Character, Integer> entry : mapA.entrySet()) {
-                if (!Objects.equals(entry.getValue(), mapB.get(entry.getKey()))) {
-                    System.out.println("NO");
-                    return;
-                }
-            }
-            System.out.println("YES");
+        int lt = 0;
+        for (int rt = K - 1; rt < N; rt++) {
+            map.put(arr[rt], map.getOrDefault(arr[rt], 0) + 1);
+            System.out.print(map.size() + " ");
+            map.put(arr[lt], map.get(arr[lt]) - 1);
+            if (map.get(arr[lt]) == 0)
+                map.remove(arr[lt]);
+            lt++;
         }
     }
 }
