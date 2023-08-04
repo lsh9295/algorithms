@@ -4,28 +4,27 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        String str = br.readLine();
-        char[] chars = str.toCharArray();
-        Stack<Character> stack = new Stack<>();
+        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+        Queue<Integer> queue = new LinkedList<>();
 
-        for (char c : chars) {
-            if (stack.empty()) {
-                stack.add(c);
-            }
-            else {
-                char popC = stack.peek();
+        int N = Integer.parseInt(st.nextToken());
+        int K = Integer.parseInt(st.nextToken());
 
-                if (popC == '(' && c == ')') {
-                    stack.pop();
-                } else {
-                    stack.add(c);
-                }
+        for (int i = 1; i <= N; i++) {
+            queue.offer(i);
+        }
+        int cnt = 0;
+        int answer = 0;
+
+        while (!queue.isEmpty()) {
+            cnt++;
+            if (cnt == K) {
+                answer = queue.poll();
+                cnt = 0;
+            } else {
+                queue.offer(queue.poll());
             }
         }
-        if (stack.empty()) {
-            System.out.println("YES");
-        } else {
-            System.out.println("NO");
-        }
+        System.out.println(answer);
     }
 }
