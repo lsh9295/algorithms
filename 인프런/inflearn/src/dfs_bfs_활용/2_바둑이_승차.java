@@ -1,3 +1,5 @@
+package dfs_bfs_활용;
+
 import java.io.*;
 import java.util.*;
 
@@ -6,7 +8,6 @@ import java.util.*;
   N - 바둑이 수
   W - 각 바둑이 무게
   트럭 제한 무게를 넘지 않는 선에서 바둑이들을 가장 최대 무게에 가깝게 얼마나 실을 수 있는지
-
  */
 public class Main {
     static int maxWeight = 0;
