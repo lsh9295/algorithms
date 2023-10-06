@@ -1,3 +1,5 @@
+package dfs_bfs_기초;
+
 import java.util.*;
 import java.io.*;
 
