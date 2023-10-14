@@ -1,12 +1,14 @@
+package dfs_bfs_활용;
+
 import java.util.*;
 import java.io.*;
-
 
 public class Main {
     static int[][] board = new int[7][7];
     static int answer = 0;
     static int[] py = {0, 0, 1, -1}; // 동, 서, 남, 북
     static int[] px = {1,-1, 0,  0};
+
     public static void main(String args[]) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
