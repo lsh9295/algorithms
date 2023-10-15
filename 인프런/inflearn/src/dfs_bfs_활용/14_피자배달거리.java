@@ -1,10 +1,11 @@
+package dfs_bfs_활용;
+
 import java.util.*;
 import java.io.*;
 
 /**
  * 0 -> 빈칸 / 1 -> 집 / 2 -> 피자집
  */
-
 class Node {
     int y;
     int x;
