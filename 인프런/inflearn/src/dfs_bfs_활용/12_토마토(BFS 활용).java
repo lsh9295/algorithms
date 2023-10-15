@@ -1,3 +1,5 @@
+package dfs_bfs_활용;
+
 import java.util.*;
 import java.io.*;
 
@@ -12,8 +14,8 @@ class Node {
     int x;
 
     public Node(int y, int x) {
-       this.y = y;
-       this.x = x;
+        this.y = y;
+        this.x = x;
     }
 }
 
@@ -56,11 +58,11 @@ public class Main {
 
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < M; j++) {
-               if (board[i][j] == 0) {
-                   System.out.println(-1);
+                if (board[i][j] == 0) {
+                    System.out.println(-1);
 
-                   return;
-               }
+                    return;
+                }
             }
         }
         System.out.println(answer);
