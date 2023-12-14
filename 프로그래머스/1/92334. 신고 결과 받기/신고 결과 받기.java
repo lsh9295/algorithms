@@ -1,43 +1,64 @@
 import java.util.*;
 
 class Solution {
+    static int[] answer;
+    
     public static int[] solution(String[] id_list, String[] report, int k) {
-        ArrayList<Integer> answer = new ArrayList<>();
-        int[] answers = new int[id_list.length];
-        String[] reports = Arrays.stream(report).distinct().toArray(String[]::new);
-        Map<String, Integer> reportCntMap = new HashMap<>();
-        Map<String, ArrayList<String>> userReportList = new LinkedHashMap<>(); // id_list의 순서를 보장하기 위한 LinkedHashMap
-
-        for (String id : id_list) { // 신고 카운트 맵 0 초기화
-            reportCntMap.put(id, 0);
-        }
-        for (String id : id_list) { // 신고 리스트 맵 초기화
-            userReportList.put(id, new ArrayList<>());
-        }
-        for (String r : reports) {
-            String[] contents = r.split(" "); // "신고자 피신고자"
-            reportCntMap.put(contents[1], reportCntMap.get(contents[1]) + 1); // 누적 신고 카운트 증가
-            ArrayList<String> reportList = userReportList.getOrDefault(contents[0], new ArrayList<>());
-
-            reportList.add(contents[1]);
-            userReportList.put(contents[0], reportList);
-        }
-        for (Map.Entry<String, ArrayList<String>> map : userReportList.entrySet()) { // 신고 리스트 순회
-            ArrayList<String> reportArray = map.getValue();
-            int totalCnt = 0;
-
-            for (String ra : reportArray) {
-                int cnt = reportCntMap.get(ra);
-
-                if (cnt >= k) {
-                    totalCnt++;
-                }
-            }
-            answer.add(totalCnt);
-        }
+        answer = new int[id_list.length];
+        Map<String, Integer> map = new LinkedHashMap<>(); // 유저별 피신고 횟수
+        Map<String, Integer> answerMap = new LinkedHashMap<>(); // 유저별 메일을 받은 횟수]
+        Map<String, Integer> lastMap = new LinkedHashMap<>();
+        
+        Set<String> set = new HashSet<>(); // 신고 내역
+        
+        for (int i = 0; i < report.length; i++) // 신고 내역 중복 제거 프로세스
+            set.add(report[i]); 
+        
         for (int i = 0; i < id_list.length; i++) {
-            answers[i] = answer.get(i);
+            map.put(id_list[i], 0);
+            answerMap.put(id_list[i], 0);
+            lastMap.put(id_list[i], 0);
         }
-        return answers;
+        
+        for (String s : set) {
+            String[] reportContent = s.split(" ");
+            String toReport = reportContent[0]; // 신고자
+            String fromReport = reportContent[1]; // 피신고자
+            
+            map.put(fromReport, map.get(fromReport) + 1);
+        }
+        
+        for (String s : set) {
+            String[] reportContent = s.split(" ");
+            String toReport = reportContent[0];
+            String fromReport = reportContent[1];
+            
+            if (map.get(fromReport) >= k)
+                answerMap.put(toReport, answerMap.get(toReport) + 1);
+        }
+        System.out.println(answerMap);
+        
+        for (int i = 0; i < id_list.length; i++) // 순서 변환
+            lastMap.put(id_list[i], answerMap.get(id_list[i]));
+        
+        for (int i = 0; i < id_list.length; i++) 
+            answer[i] = lastMap.get(id_list[i]);
+        
+        System.out.println(lastMap);
+    
+        return answer;
     }
 }
+
+/*
+[풀이법]
+1. 각 유저는 한 번에 한 명의 유저를 신고 가능
+2. 동일한 유저 신고는 1회로 처리
+3. k번 이상 신고된 유저는 게시판 이용이 정지
+4. return은 유저가 받은 자신이 신고한 유저의 정지 여부
+
+[Tip]
+LinkedHashMap을 사용하여 순서를 유지하며 신고 횟수 카운팅
+동일한 유저 신고 처리는 HashSet으로 중복 제거
+
+*/
