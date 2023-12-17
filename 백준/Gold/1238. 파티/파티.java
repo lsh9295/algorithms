@@ -31,6 +31,7 @@ class Main {
 
         dist = new int[N + 1];
         r_dist = new int[N + 1];
+
         Arrays.fill(dist, Integer.MAX_VALUE);
         Arrays.fill(r_dist, Integer.MAX_VALUE);
 
@@ -62,11 +63,18 @@ class Main {
 
     static void dijkstra(ArrayList<Node>[] arr, int[] dist, int start) {
         PriorityQueue<Node> q = new PriorityQueue<>();
+        boolean[] visited = new boolean[dist.length];
+
         q.add(new Node(start, 0));
         dist[start] = 0;
+        Arrays.fill(visited, false); //방문여부 체크 배열 false로 초기화
+
 
         while(!q.isEmpty()) {
             Node now = q.poll();
+
+            if(visited[now.node]) continue; //방문했던 정점이면 스킵
+            visited[now.node] = true; //미방문이면 방문으로(true)로 셋팅하고 for문 처리
 
             for (Node next : arr[now.node]) {
                 if (dist[next.node] > dist[now.node] + next.cost) {
