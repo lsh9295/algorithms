@@ -13,23 +13,18 @@ class Main {
         dp = new Integer[N + 1];
         dp[0] = dp[1] = 0;
 
-        System.out.println(recursive(N));
-    }
+        for (int i = 2; i <= N; i++) {
+            dp[i] = dp[i - 1] + 1;
 
-    static int recursive(int N) {
-        if (dp[N] == null) {
-            if (N % 6 == 0) {
-                dp[N] = Math.min(Math.min(recursive(N / 3), recursive(N / 2)), recursive(N - 1)) + 1;
-            } else if (N % 3 == 0) {
-                dp[N] = Math.min(recursive(N / 3), recursive(N - 1)) + 1;
-            } else if (N % 2 == 0) {
-                dp[N] = Math.min(recursive(N / 2), recursive(N - 1)) + 1;
-            } else {
-                dp[N] = recursive(N - 1) + 1;
-            }
+            if (i % 6 == 0)
+                dp[i] = Math.min(Math.min(dp[i / 3] + 1, dp[i / 2] + 1), dp[i]);
+            else if (i % 3 == 0)
+                dp[i] = Math.min(dp[i], dp[i / 3] + 1);
+            else if (i % 2 == 0)
+                dp[i] = Math.min(dp[i], dp[i / 2] + 1);
         }
-        return dp[N];
+        System.out.println(dp[N]);
     }
 }
-// DP Top-Down 방식
+// DP Bottom-Up
 
